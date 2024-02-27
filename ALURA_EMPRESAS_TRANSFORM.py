@@ -1,4 +1,13 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC #### Pegando Variavel global da Task Inicial
+
+# COMMAND ----------
+
+dbutils.jobs.taskValues.get(taskKey = "Carrega_dados_p_DataLake", key = "DICT_VAR_NOME_COLUNAS", default = {}, debugValue = {"TEST":"VALUE"})
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC SELECT COUNT(*) FROM DATA_LAKE_EMPRESAS;
 # MAGIC
