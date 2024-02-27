@@ -4,7 +4,8 @@
 
 # COMMAND ----------
 
-dbutils.jobs.taskValues.get(taskKey = "Carrega_dados_p_DataLake", key = "DICT_VAR_NOME_COLUNAS", default = {}, debugValue = {"TEST":"VALUE"})
+var_global = dbutils.jobs.taskValues.get(taskKey = "Carrega_dados_p_DataLake", key = "DICT_VAR_NOME_COLUNAS", default = {}, debugValue = {"TEST":"VALUE"})
+print(var_global)
 
 # COMMAND ----------
 
