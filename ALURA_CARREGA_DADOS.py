@@ -64,6 +64,16 @@ except Exception as e:
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC #### DataBricks - Passando Variavel para outra task
+
+# COMMAND ----------
+
+# DBTITLE 1,Setando Variavel Global no Job
+dbutils.jobs.taskValues.set(key = "DICT_VAR_NOME_COLUNAS", value = entidades)
+
+# COMMAND ----------
+
 # DBTITLE 1,Verificando os arquivos
 # Listar arquivos extraídos
 for entidade in entidades:
