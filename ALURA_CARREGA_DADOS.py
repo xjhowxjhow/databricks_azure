@@ -1,5 +1,5 @@
 # Databricks notebook source
-
+print('Branch DEV')
 
 # COMMAND ----------
 
@@ -25,14 +25,6 @@ spark:SparkSession = spark
 
 # COMMAND ----------
 
-!dir temp
-
-# COMMAND ----------
-
-# MAGIC %fs ls
-
-# COMMAND ----------
-
 # DBTITLE 1,Requests
 import requests
 from zipfile import ZipFile
@@ -47,26 +39,38 @@ entidades ={
 
 # Diretório no espaço de trabalho do Databricks
 workspace_dir = '/tmp/'
+try:
+    for entidade, url in entidades.items():
+        response = requests.get(url)
 
-for entidade, url in entidades.items():
-    response = requests.get(url)
+        if response.status_code == 200:
+            try:
+                print(f'Download da Entidade {entidade.upper()} ok!')
+                file_path = f'{workspace_dir}{entidade}.zip'
 
-    if response.status_code == 200:
-        try:
-            print(f'Download da Entidade {entidade.upper()} ok!')
-            file_path = f'{workspace_dir}{entidade}.zip'
-            
-            with open(file_path, 'wb') as f:
-                f.write(response.content)
+                with open(file_path, 'wb') as f:
+                    f.write(response.content)
 
-            with ZipFile(file_path, 'r') as zip_file:
-                zip_file.extractall(workspace_dir)
-            
-            os.remove(file_path)  # Remove the zip file after extraction
-        except Exception as e:
-            print(f'Error ao processar a entidade {entidade}: {str(e)}')
-    else:
-        print(f'Error ao baixar a entidade {entidade}')
+                with ZipFile(file_path, 'r') as zip_file:
+                    zip_file.extractall(workspace_dir)
+
+                os.remove(file_path)  # Remove the zip file after extraction
+            except Exception as e:
+                raise Exception(f'Error ao processar a entidade {entidade}: {str(e)}')  # Added except block
+        else:
+            print(f'Error ao baixar a entidade {entidade}')
+except Exception as e:
+    raise Exception(f'Error ao processar a entidade {entidade}: {str(e)}')  # Added except block
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC #### DataBricks - Passando Variavel para outra task
+
+# COMMAND ----------
+
+# DBTITLE 1,Setando Variavel Global no Job
+dbutils.jobs.taskValues.set(key = "DICT_VAR_NOME_COLUNAS", value = entidades)
 
 # COMMAND ----------
 
@@ -84,7 +88,7 @@ for entidade in entidades:
 # COMMAND ----------
 
 # DBTITLE 1,Comando Databriks LS
-# MAGIC %sh ls /tmp/empresas
+# MAGIC %sh ls /tmp/
 # MAGIC
 
 # COMMAND ----------
