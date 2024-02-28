@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %sql
-# MAGIC SELECT COUNT(*) FROM DATA_LAKE_SOCIOS;
+# MAGIC SELECT COUNT(*) FROM LOADERZ.DATA_LAKE_SOCIOS;
 # MAGIC
 
 # COMMAND ----------
@@ -11,6 +11,6 @@ spark:SparkSession = spark
 # COMMAND ----------
 
 
-df = spark.read.table("DATA_LAKE_SOCIOS")
+df = spark.read.table("LOADERZ.DATA_LAKE_SOCIOS")
 display(df.limit(5))
 
