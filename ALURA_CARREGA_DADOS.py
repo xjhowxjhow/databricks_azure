@@ -315,9 +315,14 @@ display(empresas.limit(5))
 # COMMAND ----------
 
 # Save the empresas dataframe as a table in the database
-empresas.write.saveAsTable('DATA_LAKE_EMPRESAS')
-socios.write.saveAsTable('DATA_LAKE_SOCIOS')
-estabelecimentos.write.saveAsTable('DATA_LAKE_ESTABELECIOMENTOS')
+
+spark.sql("CREATE SCHEMA IF NOT EXISTS LOADERZ")
+
+
+
+empresas.write.mode("overwrite").saveAsTable('LOADERZ.DATA_LAKE_EMPRESAS')
+socios.write.mode("overwrite").saveAsTable('LOADERZ.DATA_LAKE_SOCIOS')
+estabelecimentos.write.mode("overwrite").saveAsTable('LOADERZ.DATA_LAKE_ESTABELECIOMENTOS')
 
 # COMMAND ----------
 
